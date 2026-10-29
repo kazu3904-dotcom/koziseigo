@@ -106,7 +106,7 @@ footer{margin-top:36px;color:var(--sub);font-size:.85rem;border-top:3px double v
     </div>
     <aside class="stampbook" aria-live="polite">
       <h2>わたしのはんこ帳</h2>
-      <div class="count"><output id="got">0</output> <span>/ <span id="total">24</span> こ</span></div>
+      <div class="count"><output id="got">0</output> <span>/ <span id="total">28</span> こ</span></div>
       <div class="bar"><i id="barfill"></i></div>
       <p class="rank" id="rank">動画を見ると、はんこがもらえるよ</p>
     </aside>
@@ -135,7 +135,7 @@ footer{margin-top:36px;color:var(--sub);font-size:.85rem;border-top:3px double v
 const DATA = [
   {w:"蛍雪の功",y:"けいせつのこう",id:"4I7ok19p_9Y",p:"🐛",t:["study"],q:"ホタルの光と、雪のあかり。まずしい二人は、それを使って何をしていたの？",a:"苦労しながら勉強をつづけて、成果をあげること。"},
   {w:"登竜門",y:"とうりゅうもん",id:"tZpZhtMeIw4",p:"🐟",t:["animal","study"],q:"はげしい滝をのぼりきったコイは、なにに変身する？",a:"そこを通りぬければ、大きく出世できるむずかしい関門。"},
-  {w:"背水の陣",y:"はいすいのじん",id:"OxhFoUG0mrI",p:"🌊",t:["battle"],q:"うしろは川！ わざとにげ道をなくした大将。どうしてそんなことをしたの？",a:"あとがない場所に身をおいて、ひっしの覚悟でとりくむこと。"},
+  {w:"背水の陣",y:"はいすいのじん",id:"ji7m5msjPFo",p:"🌊",t:["battle"],q:"うしろは川！ わざとにげ道をなくした大将。どうしてそんなことをしたの？",a:"あとがない場所に身をおいて、ひっしの覚悟でとりくむこと。"},
   {w:"守株",y:"しゅしゅ",id:"njAtcKcUfw8",p:"🐇",t:["animal","life"],q:"切りかぶにウサギがぶつかってラッキー！ もう一度まちつづけた男はどうなった？",a:"むかしのやり方にこだわって、くふうをしないこと。"},
   {w:"画竜点睛",y:"がりょうてんせい",id:"JfayFnhU8FU",p:"🐉",t:["animal","study"],q:"かべにかいた竜に、目をかきいれたら…なにが起きた？",a:"いちばん大切な、さいごの仕上げ。"},
   {w:"五十歩百歩",y:"ごじっぽひゃっぽ",id:"dzqt4E-_KOo",p:"🏃",t:["battle","life"],q:"50歩にげた人が、100歩にげた人をわらった。どっちがりっぱ？",a:"少しのちがいはあっても、あまりかわらないこと。"},
@@ -149,14 +149,18 @@ const DATA = [
   {w:"虎の威を借るきつね",y:"とらのいをかるきつね",id:"2bDuLfdZZYI",p:"🦊",t:["animal"],q:"森の動物たちがにげていく！ みんな、キツネがこわかったの？",a:"強い人の力をたよりにして、いばること。"},
   {w:"漁夫の利",y:"ぎょふのり",id:"gI0lL1hfMe0",p:"🐚",t:["animal","battle"],q:"鳥と貝が大ゲンカ！ 最後にとくをしたのは、だれ？",a:"二人があらそっているすきに、ほかの人がとくをすること。"},
   {w:"臥薪嘗胆",y:"がしんしょうたん",id:"eKljvBgN2lw",p:"🔥",t:["battle","study"],q:"ゴツゴツのたきぎの上でねて、にがい肝をなめる。いったいなんのため？",a:"目的をはたすために、長いあいだ苦労にたえること。"},
-  {w:"呉越同舟",y:"ごえつどうしゅう",id:"jblnKyl0oSM",p:"⛵",t:["battle","life"],q:"なかのわるい国どうしの人が、同じ船で大あらしにあったら？",a:"なかのわるい者どうしが、同じ場所にいたり、力を合わせたりすること。"},
+  {w:"呉越同舟",y:"ごえつどうしゅう",id:["jblnKyl0oSM","2B8sYNMoEHc"],p:"⛵",t:["battle","life"],q:"なかのわるい国どうしの人が、同じ船で大あらしにあったら？",a:"なかのわるい者どうしが、同じ場所にいたり、力を合わせたりすること。"},
   {w:"覆水盆に返らず",y:"ふくすいぼんにかえらず",id:"fbLPmi4IUvQ",p:"💧",t:["life"],q:"おぼんからこぼれた水。もう一度もとにもどせる？",a:"一度してしまったことは、とりかえしがつかないこと。"},
   {w:"四面楚歌",y:"しめんそか",id:"OxhFoUG0mrI",p:"🎶",t:["battle"],q:"夜、まわりから聞こえてきたふるさとの歌。王さまがおどろいたわけは？",a:"まわりが敵ばかりで、味方がいないこと。"},
   {w:"逆鱗に触れる",y:"げきりんにふれる",id:"VkSF8vt49jQ",p:"🐲",t:["animal","battle"],q:"やさしい竜にも、たった1まい「さわってはいけないうろこ」がある！",a:"目上の人を、はげしくおこらせること。"},
   {w:"鶏口牛後",y:"けいこうぎゅうご",id:"XvZEr3--4Kk",p:"🐓",t:["animal","battle"],q:"ニワトリの口と、牛のおしり。なるとしたら、どっちがいい？",a:"大きな集まりの下っぱより、小さな集まりのリーダーになるほうがよい。"},
   {w:"羊頭狗肉",y:"ようとうくにく",id:"ycYYp6GYeOc",p:"🐑",t:["animal","life"],q:"りっぱなヒツジの頭をかざったお肉屋さん。ほんとうに売っていたのは…？",a:"見かけはりっぱなのに、中身がともなわないこと。"},
   {w:"温故知新",y:"おんこちしん",id:"uImVqkMyQL8",p:"📜",t:["study"],q:"むかしの本の中に、新しい発見がかくれている？",a:"むかしのことを学んで、そこから新しい考えや知識を見つけること。"},
-  {w:"破竹の勢い",y:"はちくのいきおい",id:"Rtrh8HYJYgM",p:"🎋",t:["battle"],q:"竹は、さいしょの「ふし」を割ると…そのあとどうなる？",a:"止められないほど、いきおいがはげしいこと。"}
+  {w:"破竹の勢い",y:"はちくのいきおい",id:"Rtrh8HYJYgM",p:"🎋",t:["battle"],q:"竹は、さいしょの「ふし」を割ると…そのあとどうなる？",a:"止められないほど、いきおいがはげしいこと。"},
+  {w:"一衣帯水",y:"いちいたいすい",id:"i3V6qTgDmoA",p:"🎀",t:["life"],q:"帯（おび）みたいに細い川をはさんだ、おとなりどうし。どれくらい近いの？",a:"細い川や海をへだてているだけで、とても近いこと。"},
+  {w:"虎穴に入らずんば虎子を得ず",y:"こけつにいらずんばこじをえず",id:"l5_CZEwKiyY",p:"🐯",t:["animal","battle"],q:"トラの子どもを手に入れたい！ でもトラのすみかはこわい…さあ、どうする？",a:"危険をおかさなければ、大きな成功は手に入らないこと。"},
+  {w:"他山の石",y:"たざんのいし",id:"fHBBfJLR20k",p:"🪨",t:["study","life"],q:"よその山の、ふつうの石。それが自分の宝石をみがくのに役立つって、どういうこと？",a:"人のよくない言動も、自分をみがく手助けになること。"},
+  {w:"刎頸の交わり",y:"ふんけいのまじわり",id:"Q7pL74RLetM",p:"🤝",t:["battle","life"],q:"「この友のためなら、首を切られてもかまわない！」そんな二人はどんな関係？",a:"命をかけてもいいほど、かたい友情でむすばれたつきあい。"}
 ];
 const KEY = "kojiseigo-hanko-v1";
 let done = new Set();
@@ -186,12 +190,12 @@ function render(){
       <p class="nazo" style="margin:0">${d.q}</p>
       <p class="answer" hidden style="margin:0">${d.a}</p>
       <div class="actions">
-        <a class="btn" href="https://youtu.be/${d.id}" target="_blank" rel="noopener">${playIcon}動画でなぞをとく</a>
+        ${[].concat(d.id).map((v, k, arr) => `<a class="btn" href="https://youtu.be/${v}" target="_blank" rel="noopener">${playIcon}${arr.length > 1 ? "動画" + "①②③④⑤"[k] : "動画でなぞをとく"}</a>`).join("")}
         <button class="peek" type="button" aria-expanded="false">意味をのぞく</button>
       </div>`;
-    el.querySelector(".btn").addEventListener("click", () => {
+    el.querySelectorAll(".btn").forEach(b => b.addEventListener("click", () => {
       done.add(key); save(); el.classList.add("done"); update();
-    });
+    }));
     const peek = el.querySelector(".peek"), ans = el.querySelector(".answer");
     peek.addEventListener("click", () => {
       ans.hidden = !ans.hidden;
@@ -208,7 +212,7 @@ function update(){
   document.getElementById("got").textContent = n;
   document.getElementById("total").textContent = all;
   document.getElementById("barfill").style.width = (n / all * 100) + "%";
-  const ranks = [[0,"動画を見ると、はんこがもらえるよ"],[1,"見習い 故事成語たんてい"],[6,"一人前の 故事成語たんてい"],[12,"故事成語 はかせ"],[18,"故事成語 名人"],[24,"全部見た！ 故事成語マスター"]];
+  const ranks = [[0,"動画を見ると、はんこがもらえるよ"],[1,"見習い 故事成語たんてい"],[6,"一人前の 故事成語たんてい"],[12,"故事成語 はかせ"],[18,"故事成語 名人"],[all,"全部見た！ 故事成語マスター"]];
   document.getElementById("rank").textContent = ranks.filter(r => n >= r[0]).pop()[1];
 }
 
