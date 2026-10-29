@@ -1,0 +1,233 @@
+<title>故事成語なぞとき図鑑</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* レイアウト：竹簡（ちくかん）の図鑑。上に「はんこ帳」とくじ、下にカードがならぶ */
+:root{
+  --bg:#EDF1E6;          /* 竹紙の地 */
+  --paper:#FBFCF7;       /* カード */
+  --ink:#1E2A2A;         /* 墨 */
+  --sub:#56635F;         /* うすい墨 */
+  --line:#CBD5C3;        /* 竹のすじ */
+  --jade:#11705F;        /* 翡翠（アクセント） */
+  --jade-soft:#D7EBE3;
+  --seal:#CF3B2B;        /* 朱のはんこ */
+  --gold:#F0B429;        /* ひらめき */
+  --shadow:0 2px 0 #C5CFBC;
+  --f-brush:"Yuji Syuku","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141C1D;--paper:#1E2829;--ink:#E9EFE6;--sub:#A9B6B0;--line:#33413F;
+  --jade:#5CC7AE;--jade-soft:#20403A;--seal:#F06A57;--gold:#F5C451;--shadow:0 2px 0 #0B1112;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141C1D;--paper:#1E2829;--ink:#E9EFE6;--sub:#A9B6B0;--line:#33413F;
+  --jade:#5CC7AE;--jade-soft:#20403A;--seal:#F06A57;--gold:#F5C451;--shadow:0 2px 0 #0B1112;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- 表紙 ---------- */
+header.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;padding-block:36px 20px;border-bottom:3px double var(--line)}
+.eyebrow{font-weight:700;color:var(--jade);letter-spacing:.12em;font-size:.9rem}
+h1{font-family:var(--f-brush);font-weight:400;font-size:clamp(2.4rem,7vw,4.4rem);line-height:1.15;margin:.1em 0 .15em;text-wrap:balance}
+h1 .small{display:block;font-size:.45em;color:var(--sub);font-family:var(--f-body);font-weight:900;letter-spacing:.08em}
+.lead{margin:0;max-width:34em;color:var(--sub);font-weight:500}
+.lead b{color:var(--ink)}
+
+/* はんこ帳 */
+.stampbook{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:14px 16px;min-width:230px;box-shadow:var(--shadow)}
+.stampbook h2{margin:0 0 6px;font-size:.95rem;letter-spacing:.06em}
+.count{font-size:2rem;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.count span{font-size:1rem;color:var(--sub);font-weight:700}
+.bar{height:10px;border-radius:6px;background:var(--jade-soft);margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--seal);border-radius:6px;transition:width .5s}
+.rank{margin:8px 0 0;font-size:.85rem;color:var(--sub);font-weight:700}
+
+/* ---------- くじ・しぼりこみ ---------- */
+.tools{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;padding-block:20px 8px}
+.kuji{font:inherit;font-weight:900;font-size:1.05rem;border:0;cursor:pointer;color:#fff;background:var(--seal);
+  padding:12px 22px;border-radius:999px;box-shadow:0 4px 0 color-mix(in srgb,var(--seal) 60%,#000);transition:transform .1s}
+.kuji:hover{transform:translateY(-2px)}
+.kuji:active{transform:translateY(2px);box-shadow:0 1px 0 color-mix(in srgb,var(--seal) 60%,#000)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;border:2px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 14px;border-radius:999px}
+.chip[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:var(--paper)}
+.chip:focus-visible,.kuji:focus-visible,.btn:focus-visible,.peek:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.kuji-msg{min-height:1.7em;margin:4px 0 0;font-weight:700;color:var(--jade)}
+
+/* ---------- カード ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;padding-top:12px}
+.card{position:relative;background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:16px 16px 14px;
+  display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:var(--shadow);
+  background-image:repeating-linear-gradient(90deg,transparent 0 46px,color-mix(in srgb,var(--line) 35%,transparent) 46px 47px)}
+.card.picked{animation:pick 1.4s ease}
+@keyframes pick{0%,100%{box-shadow:var(--shadow)}30%,70%{box-shadow:0 0 0 6px var(--gold)}}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.no{font-size:.78rem;font-weight:900;color:var(--sub);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.pic{font-size:2.3rem;line-height:1}
+.word{font-family:var(--f-brush);font-size:2.05rem;line-height:1.25;margin:0;text-wrap:balance;word-break:keep-all;overflow-wrap:anywhere}
+.yomi{font-weight:700;color:var(--jade);font-size:.92rem;margin-top:-4px}
+.nazo{background:var(--jade-soft);border-radius:10px;padding:10px 12px;font-weight:700;font-size:.98rem;flex:1}
+.nazo::before{content:"なぞ";display:inline-block;background:var(--jade);color:var(--paper);font-size:.72rem;padding:0 7px;border-radius:5px;margin-right:6px;vertical-align:2px}
+.answer{border-left:4px solid var(--gold);padding:2px 0 2px 10px;font-weight:700;font-size:.95rem}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:900;font-size:.95rem;color:var(--paper);
+  background:var(--ink);padding:9px 14px;border-radius:10px}
+.btn:hover{background:var(--jade)}
+.btn svg{width:14px;height:14px;fill:currentColor}
+.peek{font:inherit;font-size:.86rem;font-weight:700;color:var(--sub);background:none;border:0;cursor:pointer;text-decoration:underline dotted;padding:4px}
+.seal{position:absolute;right:12px;top:52px;width:58px;height:58px;border:3px solid var(--seal);color:var(--seal);border-radius:8px;
+  display:grid;place-items:center;font-family:var(--f-brush);font-size:1.15rem;line-height:1.05;text-align:center;transform:rotate(-12deg) scale(0);opacity:0;
+  transition:transform .35s cubic-bezier(.3,1.6,.5,1),opacity .2s;pointer-events:none;background:color-mix(in srgb,var(--paper) 75%,transparent)}
+.card.done .seal{transform:rotate(-12deg) scale(1);opacity:.92}
+.card.done .pic{visibility:hidden}
+
+.empty{color:var(--sub);font-weight:700;padding:24px 0}
+footer{margin-top:36px;color:var(--sub);font-size:.85rem;border-top:3px double var(--line);padding-top:14px}
+
+@media (max-width:640px){
+  header.hero{grid-template-columns:1fr}
+  .stampbook{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">見て・わらって・おぼえる</div>
+      <h1><span class="small">故事成語</span>なぞとき図鑑</h1>
+      <p class="lead">むかしの中国から生まれた、ちょっとふしぎな言葉たち。<b>ウサギ、竜、ヘビ、竹…</b>どんなお話がかくれているかな？ 気になる「なぞ」をえらんで、動画で答えをたしかめよう！</p>
+    </div>
+    <aside class="stampbook" aria-live="polite">
+      <h2>わたしのはんこ帳</h2>
+      <div class="count"><output id="got">0</output> <span>/ <span id="total">24</span> こ</span></div>
+      <div class="bar"><i id="barfill"></i></div>
+      <p class="rank" id="rank">動画を見ると、はんこがもらえるよ</p>
+    </aside>
+  </header>
+
+  <div class="tools">
+    <button class="kuji" id="kuji" type="button">くじをひく！ どれを見る？</button>
+    <div class="chips" role="group" aria-label="なかまでしぼりこむ">
+      <button class="chip" type="button" data-tag="all" aria-pressed="true">ぜんぶ</button>
+      <button class="chip" type="button" data-tag="animal" aria-pressed="false">動物が出てくる</button>
+      <button class="chip" type="button" data-tag="battle" aria-pressed="false">王さま・たたかい</button>
+      <button class="chip" type="button" data-tag="study" aria-pressed="false">勉強・がんばる</button>
+      <button class="chip" type="button" data-tag="life" aria-pressed="false">気持ち・くらし</button>
+      <button class="chip" type="button" data-tag="new" aria-pressed="false">まだ見ていない</button>
+    </div>
+  </div>
+  <p class="kuji-msg" id="kujimsg" aria-live="polite"></p>
+
+  <main class="grid" id="grid"></main>
+  <p class="empty" id="empty" hidden>このなかまは、ぜんぶ見たよ！ すごい！</p>
+
+  <footer>動画はYouTubeでひらきます。はんこは、このブラウザだけにのこります。</footer>
+</div>
+
+<script>
+const DATA = [
+  {w:"蛍雪の功",y:"けいせつのこう",id:"4I7ok19p_9Y",p:"🐛",t:["study"],q:"ホタルの光と、雪のあかり。まずしい二人は、それを使って何をしていたの？",a:"苦労しながら勉強をつづけて、成果をあげること。"},
+  {w:"登竜門",y:"とうりゅうもん",id:"tZpZhtMeIw4",p:"🐟",t:["animal","study"],q:"はげしい滝をのぼりきったコイは、なにに変身する？",a:"そこを通りぬければ、大きく出世できるむずかしい関門。"},
+  {w:"背水の陣",y:"はいすいのじん",id:"OxhFoUG0mrI",p:"🌊",t:["battle"],q:"うしろは川！ わざとにげ道をなくした大将。どうしてそんなことをしたの？",a:"あとがない場所に身をおいて、ひっしの覚悟でとりくむこと。"},
+  {w:"守株",y:"しゅしゅ",id:"njAtcKcUfw8",p:"🐇",t:["animal","life"],q:"切りかぶにウサギがぶつかってラッキー！ もう一度まちつづけた男はどうなった？",a:"むかしのやり方にこだわって、くふうをしないこと。"},
+  {w:"画竜点睛",y:"がりょうてんせい",id:"JfayFnhU8FU",p:"🐉",t:["animal","study"],q:"かべにかいた竜に、目をかきいれたら…なにが起きた？",a:"いちばん大切な、さいごの仕上げ。"},
+  {w:"五十歩百歩",y:"ごじっぽひゃっぽ",id:"dzqt4E-_KOo",p:"🏃",t:["battle","life"],q:"50歩にげた人が、100歩にげた人をわらった。どっちがりっぱ？",a:"少しのちがいはあっても、あまりかわらないこと。"},
+  {w:"推敲",y:"すいこう",id:"zfuDy9MmGsY",p:"📝",t:["study"],q:"門を「おす」か「たたく」か。ロバの上でなやみすぎた詩人に何が起きた？",a:"文章や詩を、何度もよく考えて書き直すこと。"},
+  {w:"杞憂",y:"きゆう",id:"i6Fn3mknX3Q",p:"☁️",t:["life"],q:"「空が落ちてきたらどうしよう…」夜もねむれない人がいた！",a:"心配しなくてよいことを、あれこれ心配すること。"},
+  {w:"矛盾",y:"むじゅん",id:"SfCAs-tYFwY",p:"🛡️",t:["life"],q:"なんでもつきとおす「ほこ」で、なんでもふせぐ「たて」をついたら？",a:"話のつじつまが合わないこと。"},
+  {w:"朝三暮四",y:"ちょうさんぼし",id:"zIUSCzBUpEA",p:"🐒",t:["animal","life"],q:"朝3つ・夕方4つはイヤ！ でも朝4つ・夕方3つならOK？ サルたちのふしぎ",a:"目の前のちがいにまどわされて、けっきょく同じだと気づかないこと。"},
+  {w:"塞翁が馬",y:"さいおうがうま",id:"cc_kmg7qK18",p:"🐎",t:["animal","life"],q:"にげた馬が、なかまをつれて帰ってきた！ これはいいこと？ わるいこと？",a:"人生のしあわせやふしあわせは、前もってわからないこと。"},
+  {w:"一寸の虫にも五分の魂",y:"いっすんのむしにもごぶのたましい",id:"l6y70BQJUyI",p:"🐞",t:["animal","life"],q:"3センチの小さな虫。その中に、なにが入っている？",a:"小さく弱いものにも、それなりの考えや意地がある。ばかにしてはいけない。"},
+  {w:"蛇足",y:"だそく",id:"E90YP7V1uJk",p:"🐍",t:["animal","life"],q:"ヘビの絵を一番に書き終えた男。足までかきたしたら、どうなった？",a:"よけいなつけたし。なくてもよいもの。"},
+  {w:"虎の威を借るきつね",y:"とらのいをかるきつね",id:"2bDuLfdZZYI",p:"🦊",t:["animal"],q:"森の動物たちがにげていく！ みんな、キツネがこわかったの？",a:"強い人の力をたよりにして、いばること。"},
+  {w:"漁夫の利",y:"ぎょふのり",id:"gI0lL1hfMe0",p:"🐚",t:["animal","battle"],q:"鳥と貝が大ゲンカ！ 最後にとくをしたのは、だれ？",a:"二人があらそっているすきに、ほかの人がとくをすること。"},
+  {w:"臥薪嘗胆",y:"がしんしょうたん",id:"eKljvBgN2lw",p:"🔥",t:["battle","study"],q:"ゴツゴツのたきぎの上でねて、にがい肝をなめる。いったいなんのため？",a:"目的をはたすために、長いあいだ苦労にたえること。"},
+  {w:"呉越同舟",y:"ごえつどうしゅう",id:"jblnKyl0oSM",p:"⛵",t:["battle","life"],q:"なかのわるい国どうしの人が、同じ船で大あらしにあったら？",a:"なかのわるい者どうしが、同じ場所にいたり、力を合わせたりすること。"},
+  {w:"覆水盆に返らず",y:"ふくすいぼんにかえらず",id:"fbLPmi4IUvQ",p:"💧",t:["life"],q:"おぼんからこぼれた水。もう一度もとにもどせる？",a:"一度してしまったことは、とりかえしがつかないこと。"},
+  {w:"四面楚歌",y:"しめんそか",id:"OxhFoUG0mrI",p:"🎶",t:["battle"],q:"夜、まわりから聞こえてきたふるさとの歌。王さまがおどろいたわけは？",a:"まわりが敵ばかりで、味方がいないこと。"},
+  {w:"逆鱗に触れる",y:"げきりんにふれる",id:"VkSF8vt49jQ",p:"🐲",t:["animal","battle"],q:"やさしい竜にも、たった1まい「さわってはいけないうろこ」がある！",a:"目上の人を、はげしくおこらせること。"},
+  {w:"鶏口牛後",y:"けいこうぎゅうご",id:"XvZEr3--4Kk",p:"🐓",t:["animal","battle"],q:"ニワトリの口と、牛のおしり。なるとしたら、どっちがいい？",a:"大きな集まりの下っぱより、小さな集まりのリーダーになるほうがよい。"},
+  {w:"羊頭狗肉",y:"ようとうくにく",id:"ycYYp6GYeOc",p:"🐑",t:["animal","life"],q:"りっぱなヒツジの頭をかざったお肉屋さん。ほんとうに売っていたのは…？",a:"見かけはりっぱなのに、中身がともなわないこと。"},
+  {w:"温故知新",y:"おんこちしん",id:"uImVqkMyQL8",p:"📜",t:["study"],q:"むかしの本の中に、新しい発見がかくれている？",a:"むかしのことを学んで、そこから新しい考えや知識を見つけること。"},
+  {w:"破竹の勢い",y:"はちくのいきおい",id:"Rtrh8HYJYgM",p:"🎋",t:["battle"],q:"竹は、さいしょの「ふし」を割ると…そのあとどうなる？",a:"止められないほど、いきおいがはげしいこと。"}
+];
+const KEY = "kojiseigo-hanko-v1";
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch(e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...done])); } catch(e) {} };
+let filter = "all";
+const grid = document.getElementById("grid");
+const playIcon = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 1l7 4-7 4z"/></svg>';
+
+function render(){
+  grid.innerHTML = "";
+  let shown = 0;
+  DATA.forEach((d, i) => {
+    const key = d.w;
+    if (filter === "new" ? done.has(key) : (filter !== "all" && !d.t.includes(filter))) return;
+    shown++;
+    const el = document.createElement("article");
+    el.className = "card" + (done.has(key) ? " done" : "");
+    el.id = "c" + i;
+    el.innerHTML = `
+      <div class="top">
+        <div><div class="no">No.${String(i+1).padStart(2,"0")}</div>
+        <h3 class="word">${d.w}</h3><div class="yomi">${d.y}</div></div>
+        <div class="pic" aria-hidden="true">${d.p}</div>
+      </div>
+      <div class="seal" aria-hidden="true">見た<br>よ</div>
+      <p class="nazo" style="margin:0">${d.q}</p>
+      <p class="answer" hidden style="margin:0">${d.a}</p>
+      <div class="actions">
+        <a class="btn" href="https://youtu.be/${d.id}" target="_blank" rel="noopener">${playIcon}動画でなぞをとく</a>
+        <button class="peek" type="button" aria-expanded="false">意味をのぞく</button>
+      </div>`;
+    el.querySelector(".btn").addEventListener("click", () => {
+      done.add(key); save(); el.classList.add("done"); update();
+    });
+    const peek = el.querySelector(".peek"), ans = el.querySelector(".answer");
+    peek.addEventListener("click", () => {
+      ans.hidden = !ans.hidden;
+      peek.setAttribute("aria-expanded", String(!ans.hidden));
+      peek.textContent = ans.hidden ? "意味をのぞく" : "意味をかくす";
+    });
+    grid.appendChild(el);
+  });
+  document.getElementById("empty").hidden = shown > 0;
+}
+
+function update(){
+  const n = DATA.filter(d => done.has(d.w)).length, all = DATA.length;
+  document.getElementById("got").textContent = n;
+  document.getElementById("total").textContent = all;
+  document.getElementById("barfill").style.width = (n / all * 100) + "%";
+  const ranks = [[0,"動画を見ると、はんこがもらえるよ"],[1,"見習い 故事成語たんてい"],[6,"一人前の 故事成語たんてい"],[12,"故事成語 はかせ"],[18,"故事成語 名人"],[24,"全部見た！ 故事成語マスター"]];
+  document.getElementById("rank").textContent = ranks.filter(r => n >= r[0]).pop()[1];
+}
+
+document.querySelectorAll(".chip").forEach(ch => ch.addEventListener("click", () => {
+  filter = ch.dataset.tag;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c === ch)));
+  render();
+}));
+
+document.getElementById("kuji").addEventListener("click", () => {
+  if (filter !== "all") { filter = "all"; document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.tag === "all"))); render(); }
+  const pool = DATA.map((d, i) => i).filter(i => !done.has(DATA[i].w));
+  const list = pool.length ? pool : DATA.map((d, i) => i);
+  const i = list[Math.floor(Math.random() * list.length)];
+  const card = document.getElementById("c" + i);
+  document.getElementById("kujimsg").textContent = `くじの結果は… 「${DATA[i].w}」！ なぞをといてみよう。`;
+  card.classList.remove("picked"); void card.offsetWidth; card.classList.add("picked");
+  card.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center"});
+});
+
+render(); update();
+</script>
